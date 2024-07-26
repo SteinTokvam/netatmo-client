@@ -1,4 +1,4 @@
-import { Capability } from './capabilities/capability.enum';
+import { Capability } from './capabilities/Capability.enum';
 
 export interface BaseModule {
   id: string;

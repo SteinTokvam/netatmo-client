@@ -1,6 +1,7 @@
-import { MeasureDataDto } from './api-dtos/get-measure-response';
-import { Measurements, MeasurementType } from './domain/measurements';
-import { Capability } from './domain/modules/capabilities/capability.enum';
+import { Measurements } from "./domain";
+import { MeasurementType } from "./domain/Meassurements";
+import { Capability } from "./domain/modules/capabilities/Capability.enum";
+import { MeasureDataDto } from "./dto/GetMeasureResponse";
 
 export class MeasurementsMapper {
   public static dtoToDomain(measureDataDto: MeasureDataDto, capabilities: Capability[]): Measurements {

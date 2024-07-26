@@ -1,15 +1,13 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
-import querystring from 'querystring';
-import { BaseTokenResponse } from './api-dtos/base-token-response';
-import { GetMeasureResponse } from './api-dtos/get-measure-response';
-import { GetStationDataResponse } from './api-dtos/get-station-data-response';
-import { NetatmoOauthScope } from './api-dtos/netatmo-oauth-scope.enum';
-import { PasswordGrantResponse } from './api-dtos/password-grant-response';
+import { GetMeasureResponse } from './dto/GetMeasureResponse';
+import { GetStationDataResponse } from './dto/GetStationResponse';
+import { OauthScope } from './dto/OauthScope';
 import { BaseModule, Measurements } from './domain';
-import { StationData } from './domain/station-data';
-import { DefaultLogger, Logger } from './logger';
-import { MeasurementsMapper } from './measurements-mapper';
-import { StationDataMapper } from './station-data-mapper';
+import { StationData } from './domain/StationData';
+import { MeasurementsMapper } from './MeasurementMapper';
+import { StationDataMapper } from './StationDataMapper';
+import { TokenResponse } from './dto/TokenResponse';
+import { DefaultLogger, Logger } from './Logger';
 
 export class NetatmoApiClient {
   private static readonly NETATMO_BASE_URL = 'https://api.netatmo.com';
@@ -31,10 +29,10 @@ export class NetatmoApiClient {
     });
   }
 
-  public async login(
+  public async login(//TODO: må skrives om til en oauth flow
     username: string,
     password: string,
-    scopes: NetatmoOauthScope[] = [NetatmoOauthScope.READ_STATION]
+    scopes: OauthScope[] = [OauthScope.READ_STATION]
   ): Promise<void> {
     this.logger.log('Logging in...');
 
@@ -49,9 +47,9 @@ export class NetatmoApiClient {
       scope: scopes.join(' '),
     };
 
-    const res = await this.http.post<PasswordGrantResponse>(
+    const res = await this.http.post<TokenResponse>(
       `${NetatmoApiClient.NETATMO_BASE_URL}/oauth2/token`,
-      querystring.stringify(payload),
+      new URLSearchParams(payload),
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -80,9 +78,9 @@ export class NetatmoApiClient {
         /* eslint-enable @typescript-eslint/camelcase */
       };
 
-      const res = await this.http.post<BaseTokenResponse>(
+      const res = await this.http.post<TokenResponse>(
         `${NetatmoApiClient.NETATMO_BASE_URL}/oauth2/token`,
-        querystring.stringify(payload),
+        new URLSearchParams(payload),
         {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -94,7 +92,7 @@ export class NetatmoApiClient {
     }
   }
 
-  private saveTokens(res: BaseTokenResponse): void {
+  private saveTokens(res: TokenResponse): void {
     this.accessToken = res.access_token;
     this.refreshToken = res.refresh_token;
     this.expiration = Date.now() + res.expires_in * 1000;
@@ -116,7 +114,7 @@ export class NetatmoApiClient {
       );
 
       return StationDataMapper.dtoToDomain(res.data.body);
-    } catch (e) {
+    } catch (e: any) {
       this.logError(e);
       throw new Error();
     }
@@ -152,7 +150,7 @@ export class NetatmoApiClient {
         params: payload,
       });
       return MeasurementsMapper.dtoToDomain(res.data.body, module.capabilities);
-    } catch (e) {
+    } catch (e: any) {
       this.logError(e);
       throw new Error();
     }

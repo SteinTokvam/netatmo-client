@@ -1,4 +1,4 @@
-import { Trend } from './trend.enum';
+import { Trend } from './Trend.enum';
 
 export interface ReadsPressure {
   pressure: PressureData;

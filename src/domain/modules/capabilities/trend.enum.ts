@@ -1,5 +1,5 @@
 export enum Trend {
-  UP = 'UP',
-  DOWN = 'DOWN',
-  STABLE = 'STABLE',
-}
+    UP = 'UP',
+    DOWN = 'DOWN',
+    STABLE = 'STABLE',
+  }
