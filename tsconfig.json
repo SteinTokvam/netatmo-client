@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "ES5",
+    "module": "CommonJS",
+    "declaration": true,
+    "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "dist",
-    "declaration": true,
     "lib": ["ES2019", "DOM"]
   },
   "include": ["src/**/*"],

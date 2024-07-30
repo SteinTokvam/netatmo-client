@@ -1,16 +1,24 @@
 {
   "name": "netatmo-client",
   "description": "Netatmo API client written in Node",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "license": "MIT",
-  "author": "Stein Petter Tokvam",
+  "author": {
+    "name": "SteinTokvam",
+    "url": "https://github.com/SteinTokvam"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/SteinTokvam/netatmo-client.git"
   },
+  "bugs": {
+    "url": "https://github.com/SteinTokvam/netatmo-client/issues"
+  },
   "keywords": [
-    "Netatmo"
+    "Netatmo",
+    "Weather"
   ],
+  "homepage": "https://github.com/SteinTokvam/netatmo-client",
   "engines": {
     "node": ">=20"
   },
@@ -25,8 +33,6 @@
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*"
   ],
@@ -39,5 +45,7 @@
     "globals": "^15.8.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^7.17.0"
-  }
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts"
 }
